@@ -4,7 +4,7 @@ A transparent Firefox theme that uses your system accent color. Just two CSS fil
 
 Based on [Latin Accent](https://github.com/Acercandr0/Latin-Accent) by Acercandr0, updated for current Firefox and vertical tabs.
 
-![Overview](screenshots/overview.png)
+![Overview](screenshots/overview.webp)
 
 ## What you get
 
@@ -78,29 +78,106 @@ In `about:config`, set this to **2**:
 widget.windows.mica.toplevel-backdrop
 ```
 
-![Mica](screenshots/mica.png)
+![Mica](screenshots/mica.webp)
 
 ### 🪟 Transparency – Option 2: Windhawk
 
 Use [**Translucent Windows (Windhawk mod)**](https://windhawk.net/mods/translucent-windows).
 
-![Windhawk](screenshots/windhawk.png)
+![Windhawk](screenshots/windhawk.webp)
 
 ### 🧪 Optional but recommended – Custom new tab page with Bonjourr
 
 The theme makes the new tab page transparent, and [**Bonjourr**](https://addons.mozilla.org/firefox/addon/bonjourr-startpage/) is a great way to fill it: a clean start page with a clock, quick links and your own wallpaper.
 
 1. Install [**Bonjourr**](https://addons.mozilla.org/firefox/addon/bonjourr-startpage/) from Firefox Add-ons.
-2. Open Bonjourr's settings and copy these settings:
-
-   ![Bonjourr settings 1](screenshots/bonjourr-settings-1.png)
-   ![Bonjourr settings 2](screenshots/bonjourr-settings-2.png)
-   ![Bonjourr settings 3](screenshots/bonjourr-settings-3.png)
-
-3. In Bonjourr's settings, find the **Custom style** section and paste this CSS:
+2. Open Bonjourr's settings and turn on **Show all settings** at the top. Then customize everything to your liking.
+3. In Bonjourr's settings, find the **Custom style** section and paste this CSS. It gives the page a transparent background and the Comfortaa font (loaded from Google Fonts):
 
    ```css
-   /* TODO: paste the Bonjourr custom CSS here */
+   @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+
+   body,
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6,
+   p,
+   span,
+   div {
+     font-family: "Comfortaa", sans-serif !important;
+     font-weight: 300 !important;
+     letter-spacing: 0.015em;
+     font-smooth: always;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+     transition:
+       color 0.3s ease,
+       text-shadow 0.3s ease;
+   }
+
+   /* Light mode */
+   @media (prefers-color-scheme: light) {
+     body,
+     h1,
+     h2,
+     h3,
+     h4,
+     h5,
+     h6,
+     p,
+     span,
+     div {
+       color: #222222;
+       text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+     }
+   }
+
+   /* Dark mode */
+   @media (prefers-color-scheme: dark) {
+     body,
+     h1,
+     h2,
+     h3,
+     h4,
+     h5,
+     h6,
+     p,
+     span,
+     div {
+       color: #e0e0e0;
+       text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
+     }
+   }
+
+   h1 {
+     font-weight: 400 !important;
+     letter-spacing: 0.025em;
+   }
+
+   p {
+     font-weight: 300 !important;
+     line-height: 1.6;
+     letter-spacing: 0.015em;
+   }
+   #background {
+     background-color: transparent !important;
+   }
+   #background {
+     background-image: none !important;
+     background-color: transparent !important;
+   }
+   .tabbing {
+     background-color: transparent !important;
+   }
+   body {
+     background-color: transparent !important;
+   }
+   #background-wrapper {
+     opacity: 0 !important;
+   }
    ```
 
 4. Make Bonjourr load transparently, without a black flash first. The theme already has this built in, it just needs Bonjourr's ID:
