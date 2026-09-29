@@ -32,14 +32,13 @@
 
 /* Bonjourr new-tab extension: force transparency immediately, before
    Bonjourr's own JS-injected custom CSS runs (that's what caused the
-   black flash — it briefly rendered its default opaque background
-   first). Replace YOUR-BONJOURR-UUID with Bonjourr's Internal UUID
-   from about:debugging#/runtime/this-firefox. The UUID is different
-   on every install and changes if you reinstall Bonjourr. Without
-   Bonjourr this rule simply does nothing. */
-@-moz-document url-prefix("moz-extension://YOUR-BONJOURR-UUID/") {
-  html,
-  body {
+   black flash: it briefly rendered its default opaque background
+   first). Bonjourr's page is recognized by its #background-wrapper
+   element, so no extension ID is needed. Without Bonjourr this rule
+   does nothing. */
+@-moz-document url-prefix("moz-extension://") {
+  html:has(#background-wrapper),
+  html:has(#background-wrapper) body {
     background: transparent !important;
     background-color: transparent !important;
   }

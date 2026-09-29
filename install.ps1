@@ -6,7 +6,6 @@ function Install-LatinAccentPlus {
     [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
     $repo = 'https://raw.githubusercontent.com/rs4t/latin-accent-plus/main/chrome'
-    $bonjourrId = '{4f391a9e-8717-4ba6-a5b1-488a34931fcb}'
     $prefs = @(
         'toolkit.legacyUserProfileCustomizations.stylesheets',
         'browser.tabs.allow_transparent_browser',
@@ -85,20 +84,6 @@ function Install-LatinAccentPlus {
         Invoke-WebRequest -UseBasicParsing -Uri "$repo/$file" -OutFile (Join-Path $chromeDir $file)
     }
     Write-Host '  Downloaded the theme files.'
-
-    $prefsJs = Join-Path $profileDir 'prefs.js'
-    if (Test-Path $prefsJs) {
-        $escapedId = [regex]::Escape($bonjourrId)
-        $match = Select-String -Path $prefsJs -Pattern "$escapedId\\"":\\""([0-9a-f-]+)" | Select-Object -First 1
-        if ($match) {
-            $uuid = $match.Matches[0].Groups[1].Value
-            $contentPath = Join-Path $chromeDir 'userContent.css'
-            $utf8 = New-Object Text.UTF8Encoding $false
-            $css = [IO.File]::ReadAllText($contentPath, $utf8).Replace('YOUR-BONJOURR-UUID', $uuid)
-            [IO.File]::WriteAllText($contentPath, $css, $utf8)
-            Write-Host '  Found Bonjourr and set it up.'
-        }
-    }
 
     $userJs = Join-Path $profileDir 'user.js'
     $userJsText = if (Test-Path $userJs) { Get-Content $userJs -Raw } else { '' }
