@@ -1,0 +1,143 @@
+/* ===================================================================
+   LATIN ACCENT PLUS - FIREFOX TRANSPARENT THEME
+   https://github.com/rs4t/latin-accent-plus
+   Based on Latin Accent, made with cariño by Acercandr0
+   (https://github.com/Acercandr0/Latin-Accent)
+   =================================================================== */
+
+/* This profile's window supports real alpha transparency, and only the
+   start page below is deliberately made see-through to the desktop.
+   Ordinary websites are never meant to show the desktop — a page that
+   sets `background: transparent`/`rgba(...)` on <html> or a full-bleed
+   wrapper (dark "glass" UIs, unfinished gradients, etc.) assumes it's
+   painted over an opaque window and becomes unreadable otherwise. Force
+   an opaque system-default fallback behind every http(s) page so only
+   the site's own transparent effects show (over a solid backing) and
+   the desktop never leaks through, while about:newtab/home stay
+   transparent via the block below. */
+@-moz-document url-prefix("http://"), url-prefix("https://") {
+  html {
+    background-color: Canvas !important;
+  }
+}
+
+/* Accent-tinted text selection on real pages, matching the accent color
+   used throughout the chrome theme instead of the default gray. */
+@-moz-document url-prefix("http://"), url-prefix("https://") {
+  ::selection {
+    background-color: color-mix(in srgb, AccentColor 45%, transparent) !important;
+    color: inherit !important;
+  }
+}
+
+/* Bonjourr new-tab extension: force transparency immediately, before
+   Bonjourr's own JS-injected custom CSS runs (that's what caused the
+   black flash — it briefly rendered its default opaque background
+   first). Replace YOUR-BONJOURR-UUID with Bonjourr's Internal UUID
+   from about:debugging#/runtime/this-firefox. The UUID is different
+   on every install and changes if you reinstall Bonjourr. Without
+   Bonjourr this rule simply does nothing. */
+@-moz-document url-prefix("moz-extension://YOUR-BONJOURR-UUID/") {
+  html,
+  body {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+}
+
+@-moz-document url("about:home"), url("about:newtab"), url("about:blank") {
+  html,
+  body,
+  #root,
+  .outer-wrapper,
+  main,
+  .discovery-stream,
+  .ds-layout,
+  .sections-list,
+  .top-sites,
+  .search-wrapper {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    border: none !important;
+  }
+
+  /* ===========================
+     🎯 TOP SITES
+     =========================== */
+  
+  /* Remove ALL backgrounds from top sites */
+  .top-sites .top-site-outer,
+  .top-sites .top-site-inner,
+  .top-site-outer .tile,
+  .tile,
+  .shortcuts-refresh .top-sites-list .top-site-outer .tile,
+  .shortcuts-refresh .top-sites-list:not(.dnd-active) .top-site-outer:is(.active, :focus, :hover) .tile {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Only opacity changes on hover */
+  .top-sites .top-site-outer {
+    opacity: 0.3 !important;
+    transition: opacity 0.3s ease !important;
+  }
+
+  .top-sites .top-site-outer:hover {
+    opacity: 1 !important;
+  }
+
+  /* Force transparent background for topsites section */
+  .top-sites {
+    --newtab-background-color-secondary: transparent !important;
+  }
+
+  /* ===========================
+     🛠️  CUSTOMIZE MENU FIX
+     =========================== */
+  
+  /* Restore proper background for customize menu */
+  .customize-menu,
+  .customize-menu.customize-animate-enter-done {
+    background: var(--newtab-background-color) !important;
+    background-color: var(--newtab-background-color) !important;
+  }
+
+  /* Ensure customize menu has proper styling */
+  .customize-menu {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0px !important;
+  }
+
+  /* Fix text visibility in customize menu */
+  .customize-menu .section-title,
+  .customize-menu .section-disclaimer,
+  .customize-menu .personalize-button,
+  .customize-menu label,
+  .customize-menu input,
+  .customize-menu button {
+    color: var(--newtab-text-primary-color) !important;
+  }
+
+  /* ===========================
+     🎭  HIDE ELEMENTS
+     =========================== */
+
+  /* Recent Activity */
+  .body-wrapper.on .section-title,
+  .body-wrapper.on .sections-list .section:last-of-type,
+  .body-wrapper.on .topics {
+    display: none !important;
+  }
+
+  /* Search bar */
+  .search-wrapper .search-inner-wrapper {
+    display: none !important;
+  }
+}
