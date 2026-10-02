@@ -83,6 +83,12 @@ The theme makes the new tab page transparent, and [**Bonjourr**](https://addons.
 
 That's it. The theme recognizes Bonjourr on its own, so there is nothing else to set up.
 
+### 🧩 Optional – Compact mode
+
+Hide the tab bar, the URL bar, or both, and bring them back by hovering the edge of the window, like Zen's compact mode. Toggle it with **Ctrl+Alt+C**.
+
+Install [**Firefox Compact**](https://github.com/rs4t/firefox-compact): run its one-line setup command, then load the extension. It works on top of this theme, and this theme's installer keeps its setup line when you update.
+
 ### 💬 Notes
 
 - Fully close Firefox and reopen it after installing, not just a reload.
