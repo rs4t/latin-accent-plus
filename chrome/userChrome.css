@@ -14,6 +14,7 @@
   --toolbar-field-focus-background-color: transparent !important;
   --toolbar-field-border-color: transparent !important;
   --toolbar-field-focus-border-color: var(--accent-color) !important;
+  --toolbar-field-border-color-focus: var(--accent-color) !important;
   
   /* 🌈 Adaptive Color System */
   --accent-color: color-mix(in srgb, AccentColor 100%, transparent) !important;
@@ -369,7 +370,11 @@ this theme's --accent-color instead of a fixed white.
   background-clip: border-box !important;
 }
 
-/* Open State - Updated selectors for new Firefox versions */
+/* Open State - only the colors and the entrance animation are ours.
+   The corner radius, border and spacing are left to Firefox: Nova draws
+   the open URL bar as an outer panel plus an inner pill with a focus
+   ring (colored with the accent via --toolbar-field-border-color-focus
+   in :root), and the two shapes only line up if both come from Firefox. */
 #urlbar[open] > #urlbar-background,
 #urlbar[breakout-extend] > #urlbar-background,
 #urlbar[breakout][breakout-extend][open] > #urlbar-background,
@@ -378,9 +383,6 @@ this theme's --accent-color instead of a fixed white.
   background-color: var(--panel-bg) !important;
   background-clip: border-box !important;
   color: var(--urlbar-open-color) !important;
-  border: var(--border-outline-width) solid var(--accent-color) !important;
-  border-radius: var(--border-radius-large) !important;
-  margin: 1px !important;
   animation: urlbarExpand 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   box-shadow: none !important;
 }
