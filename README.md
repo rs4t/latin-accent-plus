@@ -16,6 +16,7 @@ A fork of [Latin Accent](https://github.com/Acercandr0/Latin-Accent) by Acercand
 - **Picture-in-Picture** gets frosted-glass controls (from Zen-Nebula).
 - **Fullscreen warning** is a compact pill.
 - **Websites** always get a solid background, so transparent sites stay readable, and selected text uses your accent color.
+- **Firefox 157 (Nova):** keeps the window transparent by removing the purple/pink gradient Nova paints behind it. The rounded Nova look is kept.
 - **Fixes for current Firefox:** window buttons, the downloads highlight, and bookmark folder menus, which used to be dimmed.
 - **One-line installer** for Windows.
 

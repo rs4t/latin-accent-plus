@@ -60,6 +60,11 @@
   --toolbarbutton-hover-background: transparent !important;
   --toolbarbutton-active-background: transparent !important;
 
+  /* 🌫️ Nova (Firefox 157+): the default theme paints a purple/pink gradient
+     on <body>, behind the whole window. This one variable feeds every place
+     Firefox draws it, so clearing it keeps the window truly transparent. */
+  --toolbox-background-image: none !important;
+
 }
 /* ===========================
    🧹 GLOBAL RESETS
