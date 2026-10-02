@@ -32,7 +32,7 @@ Paste this into PowerShell and press Enter:
 irm https://raw.githubusercontent.com/rs4t/latin-accent-plus/main/install.ps1 | iex
 ```
 
-It finds your Firefox profile, backs up any theme files you already have, downloads the theme, and enables the settings it needs. It only touches your Firefox profile folder. You can read what it does in [install.ps1](install.ps1).
+It finds your Firefox profile, saves the theme as `latin-accent-plus.css` and `latin-accent-plus-content.css`, and imports them from `userChrome.css` and `userContent.css`. Any other `@import` lines you have there (like [Firefox Compact](https://github.com/rs4t/firefox-compact)) are kept. An older theme in those files is backed up and replaced. It also enables the settings the theme needs, and only touches your Firefox profile folder. You can read what it does in [install.ps1](install.ps1).
 
 <details>
 <summary><b>Manual install</b> (or Mac/Linux)</summary>
@@ -92,7 +92,7 @@ That's it. The theme recognizes Bonjourr on its own, so there is nothing else to
 
 ## Customize
 
-At the top of `userChrome.css`:
+At the top of `latin-accent-plus.css` (or `userChrome.css` if you copied the files manually):
 
 | Variable | What it does |
 | --- | --- |
@@ -101,7 +101,7 @@ At the top of `userChrome.css`:
 | `--inactive-tab-opacity` | How dim inactive tab titles are |
 | `--border-radius` | How round tabs and buttons are |
 
-Every section is labeled, so you can delete any feature you don't like. If a website shows a weird solid box, delete the `background-color: Canvas` block at the top of `userContent.css`. If something breaks after a Firefox update, please [open an issue](../../issues).
+Every section is labeled, so you can delete any feature you don't like. If a website shows a weird solid box, delete the `background-color: Canvas` block at the top of `latin-accent-plus-content.css` (or `userContent.css` if you copied the files manually). If something breaks after a Firefox update, please [open an issue](../../issues).
 
 ## Credits
 

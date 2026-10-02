@@ -72,18 +72,48 @@ function Install-LatinAccentPlus {
     $chromeDir = Join-Path $profileDir 'chrome'
     New-Item -ItemType Directory -Force -Path $chromeDir | Out-Null
 
-    $existing = @(@('userChrome.css', 'userContent.css') | Where-Object { Test-Path (Join-Path $chromeDir $_) })
-    if ($existing) {
-        $backupDir = Join-Path $chromeDir ('backup-' + (Get-Date -Format 'yyyyMMdd-HHmmss'))
-        New-Item -ItemType Directory -Force -Path $backupDir | Out-Null
-        foreach ($file in $existing) { Copy-Item (Join-Path $chromeDir $file) $backupDir }
-        Write-Host "  Backed up your old theme files to: $backupDir"
+    # The theme lives in its own files, and userChrome.css / userContent.css only
+    # import them. Other CSS add-ons imported there (like Firefox Compact) keep
+    # their @import line across installs and updates.
+    $utf8 = New-Object Text.UTF8Encoding $false
+    $themeFiles = [ordered]@{
+        'userChrome.css'  = 'latin-accent-plus.css'
+        'userContent.css' = 'latin-accent-plus-content.css'
     }
 
-    foreach ($file in 'userChrome.css', 'userContent.css') {
-        Invoke-WebRequest -UseBasicParsing -Uri "$repo/$file" -OutFile (Join-Path $chromeDir $file)
+    foreach ($entry in $themeFiles.GetEnumerator()) {
+        Invoke-WebRequest -UseBasicParsing -Uri "$repo/$($entry.Key)" -OutFile (Join-Path $chromeDir $entry.Value)
     }
     Write-Host '  Downloaded the theme files.'
+
+    $backupDir = Join-Path $chromeDir ('backup-' + (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    $keptImports = @()
+    foreach ($entry in $themeFiles.GetEnumerator()) {
+        $path = Join-Path $chromeDir $entry.Key
+        $otherImports = @()
+        if (Test-Path $path) {
+            $lines = [IO.File]::ReadAllLines($path, $utf8)
+            $otherImports = @($lines | Where-Object {
+                $_ -match '^\s*@import\s' -and $_ -notmatch [regex]::Escape($entry.Value)
+            })
+            # Anything besides @import lines is an older copy of this theme or a
+            # different theme, which gets replaced - so keep a backup first.
+            if (@($lines | Where-Object { $_.Trim() -and $_ -notmatch '^\s*@import\s' }).Count -gt 0) {
+                New-Item -ItemType Directory -Force -Path $backupDir | Out-Null
+                Copy-Item $path $backupDir
+            }
+        }
+        $keptImports += $otherImports
+        $text = ((@("@import `"$($entry.Value)`";") + $otherImports) -join "`r`n") + "`r`n"
+        [IO.File]::WriteAllText($path, $text, $utf8)
+    }
+
+    if (Test-Path $backupDir) {
+        Write-Host "  Backed up your old theme files to: $backupDir"
+    }
+    if ($keptImports) {
+        Write-Host "  Kept your other CSS imports: $((($keptImports | ForEach-Object { $_.Trim() }) | Select-Object -Unique) -join ', ')"
+    }
 
     $userJs = Join-Path $profileDir 'user.js'
     $userJsText = if (Test-Path $userJs) { Get-Content $userJs -Raw } else { '' }
