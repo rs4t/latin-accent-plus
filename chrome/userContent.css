@@ -5,19 +5,15 @@
    (https://github.com/Acercandr0/Latin-Accent)
    =================================================================== */
 
-/* This profile's window supports real alpha transparency, and only the
-   start page below is deliberately made see-through to the desktop.
-   Ordinary websites are never meant to show the desktop — a page that
-   sets `background: transparent`/`rgba(...)` on <html> or a full-bleed
-   wrapper (dark "glass" UIs, unfinished gradients, etc.) assumes it's
-   painted over an opaque window and becomes unreadable otherwise. Force
-   an opaque system-default fallback behind every http(s) page so only
-   the site's own transparent effects show (over a solid backing) and
-   the desktop never leaks through, while about:newtab/home stay
-   transparent via the block below. */
+/* The window is see-through, so a website that sets no background of its
+   own would show the desktop. Give every http(s) page an opaque
+   system-default backing (about:newtab/home stay transparent via the
+   block below). Deliberately not !important: a user-stylesheet
+   !important would also beat a site's own <html> background and turn
+   dark sites white, so this only fills in when the site sets none. */
 @-moz-document url-prefix("http://"), url-prefix("https://") {
   html {
-    background-color: Canvas !important;
+    background-color: Canvas;
   }
 }
 
